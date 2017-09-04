@@ -1,0 +1,121 @@
+﻿<UserControl x:Class="SiriusRemoter.Views.MediaPlayerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:MahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:local="clr-namespace:SiriusRemoter.Views"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" d:DesignHeight="500" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatSlider.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Style TargetType="Button" BasedOn="{StaticResource Remoter_Button}" />
+            <Style TargetType="Label">
+                <Setter Property="Foreground" Value="White" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+            </Style>
+            <BitmapImage x:Key="DefaultVolumeImage" UriSource="../Resources/Icons/Volume-mute.white.png"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid HorizontalAlignment="Stretch" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Image Grid.Row="0" Panel.ZIndex="0" Stretch="Fill" Margin="10" Source="{Binding AlbumArtUri}">
+            <Image.Effect>
+                <BlurEffect Radius="35"/>
+            </Image.Effect>
+        </Image>
+        <Grid Grid.Row="0" Panel.ZIndex="1" HorizontalAlignment="Stretch" Height="250" Margin="50 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image Source="..\Resources\Images\panel-image.png" Stretch="Fill" Grid.Column="0" Grid.ColumnSpan="2" Panel.ZIndex="0">
+                <Image.Effect>
+                    <BlurEffect Radius="73"/>
+                </Image.Effect>
+            </Image>
+            <Image Panel.ZIndex="1" Grid.Column="0" Source="{Binding AlbumArtUri}" />
+            <Grid Panel.ZIndex="1" Grid.Column="1" VerticalAlignment="Center" Margin="15 0 0 0" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Content="{Binding Title}" FontSize="50" FontFamily="SketchFlow Print" />
+                <Label Grid.Row="1" Content="{Binding Album}" FontSize="35" FontFamily="Calibri" />
+                <Label Grid.Row="2" Content="{Binding ArtistName}" FontSize="25" FontFamily="Calibri" />
+            </Grid>
+        </Grid>
+        <StackPanel Grid.Row="1">
+            <Grid Margin="10 0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Grid HorizontalAlignment="Stretch" Margin="10" Grid.Row="0" Grid.Column="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Click="Left_Button_Click">
+                        <Image Source="../Resources/Icons/left.white.png"/>
+                    </Button>
+                    <Label Grid.Column="1" x:Name="InfoLabel" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Button Grid.Column="2" Click="Right_Button_Click">
+                        <Image Source="../Resources/Icons/right.white.png" />
+                    </Button>
+                </Grid>
+                <Label Grid.Row="1" Grid.Column="0" x:Name="CurrentSongPositionLabel" />
+                <Label Grid.Row="1" Grid.Column="1" Content=" / " />
+                <Label Grid.Row="1" Grid.Column="2" Content="{Binding CurrentSongDurationText}" />
+                <Slider Grid.Row="1" Grid.Column="3" x:Name="songSlider" IsMoveToPointEnabled="True" Margin="10,0"
+                         Style="{StaticResource Horizontal_Slider}" PreviewMouseUp="Slider_PreviewMouseUp"
+                         PreviewMouseDown="songSlider_PreviewMouseDown" VerticalAlignment="Center"
+                         Minimum="0" Maximum="100"/>
+                <Button Grid.Row="1" Grid.Column="4" x:Name="volumeControl" HorizontalAlignment="Right" 
+                        VerticalAlignment="Top" Width="60" Height="35" Click="volumeControl_Click">
+                    <Image Source="{Binding VolumeImage, FallbackValue={StaticResource DefaultVolumeImage}, TargetNullValue={StaticResource DefaultVolumeImage}}"/>                    
+                </Button>
+                <Popup x:Name="DDNTPopup" StaysOpen="False" Placement="Top" HorizontalOffset="22" VerticalOffset="-5" PopupAnimation="Scroll" 
+                       PlacementTarget="{Binding ElementName=volumeControl}" >
+                    <Border BorderThickness="2">
+                        <Slider Height="80" Orientation="Vertical" Minimum="0" Maximum="100" 
+                                Style="{DynamicResource FlatSlider}" Margin="2" Value="{Binding CurrentVolume}"/>
+                    </Border>
+                </Popup>
+            </Grid>
+            <DockPanel Margin="0 15" HorizontalAlignment="Center">
+                <Button Command="{Binding RepeatCommand}">
+                    <Image Source="../Resources/Icons/repeat.white.png" />
+                </Button>
+                <Button Command="{Binding PreviousCommand}" Margin="5,0">
+                    <Image Source="../Resources/Icons/previous.white.png" />
+                </Button>
+                <Button Command="{Binding PlayCommand}" x:Name="playPauseButton">
+                    <Image Source="../Resources/Icons/play.white.png" x:Name="playPauseImage"/>
+                </Button>
+                <Button Command="{Binding NextCommand}" Margin="5,0">
+                    <Image Source="../Resources/Icons/next.white.png" />
+                </Button>
+                <Button Command="{Binding ShuffleCommand}">
+                    <Image Source="../Resources/Icons/shuffle.white.png" />
+                </Button>
+            </DockPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

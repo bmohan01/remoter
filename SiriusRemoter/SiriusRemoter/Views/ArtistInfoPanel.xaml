@@ -1,0 +1,108 @@
+﻿<UserControl x:Class="SiriusRemoter.Views.ArtistInfoPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:MahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:local="clr-namespace:SiriusRemoter.Views"
+             mc:Ignorable="d" MinWidth="350" IsVisibleChanged="IsVisibleChangedHandler">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+        <Style TargetType="MahApps:ProgressRing" BasedOn="{StaticResource Remoter_ProgressRing}" />
+        <Style TargetType="Button" BasedOn="{StaticResource Image_Switcher_Button}" x:Key="TransparentButton"/>
+        <Style TargetType="Button" BasedOn="{StaticResource ControllerButtonStyle}" x:Key="RemoterButton"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid Background="Transparent">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Text="{Binding ArtistName}" Margin="10 2 0 0" FontSize="24">
+                <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Style.Triggers>
+                            <Trigger Property="Text" Value="">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <Separator Grid.Row="1" />
+            <Expander Grid.Row="2" Header="Members" IsExpanded="{Binding ExpandMetadata, Mode=OneWay}">
+                <Grid>
+                    <TextBlock Text="{Binding Members}" />
+                    <MahApps:ProgressRing IsActive="{Binding MembersBusy}" />
+                </Grid>
+            </Expander>
+            <Separator Grid.Row="3" />
+            <Expander Grid.Row="4" Header="Also known as" IsExpanded="{Binding ExpandMetadata, Mode=OneWay}">
+                <Grid>
+                    <TextBlock Text="{Binding ArtistNameVariations}"/>
+                    <MahApps:ProgressRing IsActive="{Binding ArtistNameVariationsBusy}" />
+                </Grid>
+            </Expander>
+            <Separator Grid.Row="5" />
+            <Expander Grid.Row="6" Header="Biography" IsExpanded="{Binding ExpandMetadata, Mode=OneWay}">
+                <ScrollViewer VerticalScrollBarVisibility="Visible" MaxHeight="250" >
+                    <Grid>
+                        <TextBlock Text="{Binding ArtistBio}"/>
+                        <MahApps:ProgressRing IsActive="{Binding MembersBusy}" />
+                    </Grid>
+                </ScrollViewer>
+            </Expander>
+            <Separator Grid.Row="7" />
+            <Expander Grid.Row="8" Header="Images" IsExpanded="{Binding ExpandMetadata, Mode=OneWay}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Source="{Binding ActiveImage}" Grid.Column="0" Grid.ColumnSpan="3"/>
+                    <Button Grid.Column="0" Style="{DynamicResource TransparentButton}" Click="Previous_Image_Click">
+                        <Image Source="../Resources/Icons/previous.white.png"/>
+                    </Button>
+                    <Button Grid.Column="2" Style="{DynamicResource TransparentButton}" Click="Next_Image_Click">
+                        <Image Source="../Resources/Icons/next.white.png"/>
+                    </Button>
+                </Grid>
+            </Expander>
+            <Separator Grid.Row="9" />
+            <Expander Grid.Row="10" Header="Discogs Token Auth" IsExpanded="true">
+                <Grid Margin="5 10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Row="0" Grid.Column="0" Content="Token:" Margin="0 0 10 0" VerticalAlignment="Center" Foreground="White"/>
+                    <Border Grid.Row="0" Grid.Column="1" BorderThickness="2" VerticalAlignment="Center">
+                        <TextBox Text="{Binding TokenCode}"/>
+                    </Border>
+                    <DockPanel Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center">
+                        <Button Content="Submit" Margin="0 5 5 5" HorizontalAlignment="Center" VerticalAlignment="Center"
+                                Style="{DynamicResource RemoterButton}" Command="{Binding TokenCommand}"/>
+                        <CheckBox Content="Save" Margin="5 5 0 5" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding ShouldSaveToken}"/>
+                    </DockPanel>
+                </Grid>
+            </Expander>
+        </Grid>
+    </Grid>
+</UserControl>
+

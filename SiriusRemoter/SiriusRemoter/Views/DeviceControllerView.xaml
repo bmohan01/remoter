@@ -1,0 +1,122 @@
+﻿<UserControl x:Class="SiriusRemoter.Views.DeviceControllerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:MahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:local="clr-namespace:SiriusRemoter"
+             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style TargetType="Label" BasedOn="{StaticResource ControlBaseStyle}">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Padding" Value="10" />
+        </Style>
+        <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Static ToolBar.ComboBoxStyleKey}}" />
+        <Style TargetType="Button" BasedOn="{StaticResource ControllerButtonStyle}"/>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Expander Header="Controls" Grid.Row="0" IsExpanded="True">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Expander Header="Remote" Grid.Row="0" IsExpanded="True">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Grid.Column="0" Content="All devices:" />
+                        <ComboBox Grid.Row="0" Grid.Column="1" Margin="0 5" ItemsSource="{Binding UPnpDeviceNames}" SelectedIndex="{Binding UPnpDeviceSelectedIndex}"/>
+                        <Label Grid.Row="1" Grid.Column="0" Content="Renderers:" />
+                        <ComboBox Grid.Row="1" Grid.Column="1" Margin="0 5" ItemsSource="{Binding RendererDeviceNames}" SelectedIndex="{Binding RendererSelectedIndex}"/>
+                        <Label Grid.Row="2" Grid.Column="0" Content="Media Servers:" />
+                        <ComboBox Grid.Row="2" Grid.Column="1" Margin="0 5" ItemsSource="{Binding MediaServerNames}" SelectedIndex="{Binding MediaServerSelectedIndex}"/>
+                        <Separator Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"/>
+                        <Button Grid.Row="4" Grid.Column="0" Margin="0 5" Grid.ColumnSpan="2" Content="Search"
+                        Command="{Binding SearchForDevicesCommand}" HorizontalAlignment="Center" />
+                    </Grid>
+                </Expander>
+                <Separator Grid.Row="1" Grid.ColumnSpan="2"/>
+                <Expander Header="Local" Grid.Row="2" IsExpanded="False">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <DockPanel Grid.Row="0" Margin="0 0 0 5">
+                            <Label Content="Path:" DockPanel.Dock="Left"/>
+                            <TextBox Text="{Binding DirectoryPath}" IsReadOnly="True" VerticalAlignment="Center"/>
+                        </DockPanel>
+                        <Button Content="Browse" Grid.Row="1" Command="{Binding BrowseCommand}" HorizontalAlignment="Center"/>
+                    </Grid>
+                </Expander>
+            </Grid>
+                
+        </Expander>
+        <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
+        <Expander Grid.Row="2" Header="Navigator" IsExpanded="{Binding IsNavigable}">
+            <Grid Margin="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Button Content="Back" Grid.Row="0" Command="{Binding PlayerController.NavigateUpCommand}" Margin="0 5"/>
+                <ListView Grid.Row="1" ItemsSource="{Binding PlayerController.CurrentNavigationItems}"
+                      SelectedIndex="{Binding PlayerController.CurrentNavigationIndex, Mode=OneWayToSource}"
+                      ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <EventSetter Event="MouseDoubleClick" Handler="NavigationItemClickHandler" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <Image Width="16" Height="16" DockPanel.Dock="Left" Margin="0 0 2 0">
+                                    <Image.Style>
+                                        <Style TargetType="{x:Type Image}">
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Type}" Value="AudioItem">
+                                                    <Setter Property="Source" Value="../Resources/Icons/musicNote.png"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Type}" Value="Folder">
+                                                    <Setter Property="Source" Value="../Resources/Icons/folder.png"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Type}" Value="Picture">
+                                                    <Setter Property="Source" Value="../Resources/Icons/photo.png"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Type}" Value="Video">
+                                                    <Setter Property="Source" Value="../Resources/Icons/video.png"/>
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Image.Style>
+                                </Image>
+                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListView>
+            </Grid>
+        </Expander>
+    </Grid>
+</UserControl>
