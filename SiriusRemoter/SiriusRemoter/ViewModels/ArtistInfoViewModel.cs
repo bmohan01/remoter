@@ -56,6 +56,8 @@ namespace SiriusRemoter.ViewModels
         private string _activeImage;
         private string _artistName;
         private string _artistBio;
+        private string _song;
+        private string _lyrics;
         private string _members;
         private string _nameVariations;
         private bool _artistBioBusy = true;
@@ -69,6 +71,19 @@ namespace SiriusRemoter.ViewModels
         #endregion
 
         #region Properties
+
+        public string Lyrics
+        {
+            get
+            {
+                return _lyrics;
+            }
+            set
+            {
+                _lyrics = value;
+                OnPropertyChanged(nameof(Lyrics));
+            }
+        }
 
         public bool ShouldSaveToken
         {
@@ -471,6 +486,9 @@ namespace SiriusRemoter.ViewModels
                 _currentImageIndex = 0;
                 ActiveImage = null;
                 ActiveImage = GetCurrentImageUrl();
+
+                //Get lyrics
+                Lyrics = Lyric.GetLyrics(ArtistName, _song);
             }
             catch (Exception ex)
             {
@@ -510,6 +528,7 @@ namespace SiriusRemoter.ViewModels
             try
             {
                 ArtistName = state.ArtistName;
+                _song = state.CurrentTrack.Title;
             }
             catch (Exception ex)
             {

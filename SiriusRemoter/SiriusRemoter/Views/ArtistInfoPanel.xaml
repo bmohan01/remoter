@@ -25,9 +25,11 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="{Binding ArtistName}" Margin="10 2 0 0" FontSize="24">
                 <TextBlock.Style>
@@ -64,7 +66,14 @@
                 </ScrollViewer>
             </Expander>
             <Separator Grid.Row="7" />
-            <Expander Grid.Row="8" Header="Images" IsExpanded="{Binding ExpandMetadata, Mode=OneWay}">
+            <Expander Grid.Row="8" Header="Lyrics" IsExpanded="{Binding ExpandMetadata, Mode=OneWay}">
+                <Grid>
+                    <TextBlock Text="{Binding Lyrics}" />
+                    <MahApps:ProgressRing IsActive="{Binding MembersBusy}" />
+                </Grid>
+            </Expander>
+            <Separator Grid.Row="9" />
+            <Expander Grid.Row="10" Header="Images" IsExpanded="{Binding ExpandMetadata, Mode=OneWay}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -80,8 +89,8 @@
                     </Button>
                 </Grid>
             </Expander>
-            <Separator Grid.Row="9" />
-            <Expander Grid.Row="10" Header="Discogs Token Auth" IsExpanded="true">
+            <Separator Grid.Row="11" />
+            <Expander Grid.Row="12" Header="Discogs Token Auth" IsExpanded="false">
                 <Grid Margin="5 10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
