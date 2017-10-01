@@ -6,6 +6,41 @@
         xmlns:MahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:SiriusRemoter.Views"
         mc:Ignorable="d"
-        Title="Options" Height="600" Width="500" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Background="#FF3F3F43">
-    <Grid/>
+        Title="Options" SizeToContent="WidthAndHeight" MinWidth="500" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" Background="#FF3F3F43">
+    <MahApps:MetroWindow.Resources>
+        <Style TargetType="Label" BasedOn="{StaticResource ControlBaseStyle}">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Padding" Value="10" />
+        </Style>
+        <Style TargetType="Button" BasedOn="{StaticResource ControllerButtonStyle}">
+            <Setter Property="HorizontalAlignment" Value="Center" />
+        </Style>
+    </MahApps:MetroWindow.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <GroupBox Grid.Row="0" Header="Api Keys">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Content="Discogs Api key (track metainfo):" />
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="5 5"/>
+                <Label Grid.Row="1" Grid.Column="0" Content="MusixMatch Api key (lyrics):" />
+                <TextBox Grid.Row="1" Grid.Column="1" Margin="5 5"/>
+            </Grid>
+        </GroupBox>
+        <DockPanel  Grid.Row="1" HorizontalAlignment="Center">
+            <Button Content="Save" Margin="5 5" />
+            <Button Content="Quit" Margin="5 5" IsCancel="True"/>
+        </DockPanel>
+    </Grid>
 </MahApps:MetroWindow>
