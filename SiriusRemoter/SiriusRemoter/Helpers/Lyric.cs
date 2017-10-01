@@ -1,26 +1,56 @@
-﻿using SiriusRemoter.com.wikia.lyrics;
+﻿using Newtonsoft.Json.Linq;
 using System;
+using System.IO;
+using System.Net;
 using System.Text;
 
 namespace SiriusRemoter.Helpers
 {
     public static class Lyric
     {
+        private const string MusixMatchApiKey = "6e9b4c73c8ac60a97fadd3f8fccda46d";
+
         public static string GetLyrics(string artistName, string songName)
         {
-            LyricWiki wiki = new LyricWiki();
-            LyricsResult result;
+            var info = new TrackInfo(artistName, songName);
 
-            if (wiki.checkSongExists(artistName, songName))
+            var req = (HttpWebRequest)WebRequest.Create($"http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey={MusixMatchApiKey}&track_id={info.TrackId}&commontrack_id={info.CommonTrackId}");
+            var webResponse = (HttpWebResponse)req.GetResponse();
+            var infoResponseStream = webResponse.GetResponseStream();
+            using (var sr = new StreamReader(infoResponseStream, Encoding.UTF8))
             {
-                result = wiki.getSong(artistName, songName);
-                Encoding iso8859 = Encoding.GetEncoding("ISO-8859-1");
-                return Encoding.UTF8.GetString(iso8859.GetBytes(result.lyrics));
+                var token = JObject.Parse(sr.ReadToEnd());
+                //get first search result's id
+                var firstResult = token["message"]["body"]["lyrics"];
+                return firstResult["lyrics_body"].ToString();
             }
-            else
+        }
+
+
+        internal class TrackInfo
+        {
+            public string TrackId;
+            public string CommonTrackId;
+
+            public TrackInfo(string artistName, string songName)
             {
-                return "Lyrics not found in database";
+                artistName = Uri.EscapeUriString(artistName).ToLower();
+                songName = Uri.EscapeUriString(songName).ToLower();
+
+                var req = (HttpWebRequest)WebRequest.Create($"http://api.musixmatch.com/ws/1.1/track.search?apikey={MusixMatchApiKey}&q_artist=sting&q_track=desert%20rose");
+                var webResponse = (HttpWebResponse)req.GetResponse();
+                var infoResponseStream = webResponse.GetResponseStream();
+                using (var sr = new StreamReader(infoResponseStream, Encoding.UTF8))
+                {
+                    var token = JObject.Parse(sr.ReadToEnd());
+                    //get first search result's id
+                    var results = token["message"]["body"]["track_list"];
+                    var first = results.First["track"];
+                    TrackId = first["track_id"].ToString();
+                    CommonTrackId = first["commontrack_id"].ToString();
+                }
             }
+
         }
     }
 }
