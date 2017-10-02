@@ -8,6 +8,8 @@ namespace SiriusRemoter.Helpers
 {
     public static class Utilities
     {
+        public static string TokenFilePath => Path.Combine(Utilities.AssemblyDirectory, "token.txt");
+
         private static string[] mediaExtensions = {
             ".WAV", ".MID", ".MIDI", ".WMA", ".MP3", ".OGG", ".RMA", //etc
             ".AVI", ".MP4", ".DIVX", ".WMV", //etc

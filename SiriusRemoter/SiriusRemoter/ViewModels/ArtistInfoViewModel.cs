@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
 using SiriusRemoter.Helpers;
-using SiriusRemoter.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -37,14 +36,13 @@ namespace SiriusRemoter.ViewModels
 
         public ArtistInfoViewModel(Player player)
         {
-            TokenCommand = new RelayCommand(ObtainToken);
+            ObtainToken();
             //Subscribe to Player's State engine event changes
             player.OnStateChanged += Player_OnStateChanged;
         }
 
         #region Commands
 
-        public RelayCommand TokenCommand { get; set; }
         public RelayCommand SaveTokenCommand { get; set; }
 
         #endregion
@@ -66,7 +64,6 @@ namespace SiriusRemoter.ViewModels
         private string _tokenCode;
         private const string UserAgent = "Remoter 1.0";
         private bool _expandMetadata;
-        private bool _shouldSaveToken;
 
         #endregion
 
@@ -82,19 +79,6 @@ namespace SiriusRemoter.ViewModels
             {
                 _lyrics = value;
                 OnPropertyChanged(nameof(Lyrics));
-            }
-        }
-
-        public bool ShouldSaveToken
-        {
-            get
-            {
-                return _shouldSaveToken;
-            }
-            set
-            {
-                _shouldSaveToken = value;
-                OnPropertyChanged(nameof(ShouldSaveToken));
             }
         }
 
@@ -240,41 +224,25 @@ namespace SiriusRemoter.ViewModels
             }
         }
 
-        public string TokenFilePath => Path.Combine(Utilities.AssemblyDirectory, "token.txt");
-
         #endregion
 
         #region Methods
 
         public void Initialize()
         {
-            if (File.Exists(TokenFilePath))
+            if (File.Exists(Utilities.TokenFilePath))
             {
-                TokenCode = File.ReadAllText(TokenFilePath).Trim();
+                var token = JObject.Parse(File.ReadAllText(Utilities.TokenFilePath).Trim());
+                TokenCode = token["DiscogsToken"].ToString();
             }
 
             GetArtistInfoAsync(_artistName);
         }
 
-        private void ObtainToken(object parameter)
+        private void ObtainToken()
         {
-            if (ShouldSaveToken)
-            {
-                SaveToken(TokenCode);
-            }
-
             ExpandMetadata = true;
             GetArtistInfoAsync(_artistName);
-        }
-
-        private void SaveToken(string token)
-        {
-            if (File.Exists(TokenFilePath)) return;
-            
-            using (var writer = new StreamWriter(TokenFilePath))
-            {
-                writer.Write(token);
-            }
         }
 
         public void SetNextImage(NextImageDirection imageDirection)

@@ -33,13 +33,13 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" Content="Discogs Api key (track metainfo):" />
-                <TextBox Grid.Row="0" Grid.Column="1" Margin="5 5"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="5 5" Text="{Binding DiscogsKey}"/>
                 <Label Grid.Row="1" Grid.Column="0" Content="MusixMatch Api key (lyrics):" />
-                <TextBox Grid.Row="1" Grid.Column="1" Margin="5 5"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Margin="5 5" Text="{Binding MusixMatchKey}"/>
             </Grid>
         </GroupBox>
         <DockPanel  Grid.Row="1" HorizontalAlignment="Center">
-            <Button Content="Save" Margin="5 5" />
+            <Button Content="Save" Margin="5 5" Command="{Binding SaveCommand}" IsDefault="True"/>
             <Button Content="Quit" Margin="5 5" IsCancel="True"/>
         </DockPanel>
     </Grid>

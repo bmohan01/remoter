@@ -29,6 +29,7 @@ namespace SiriusRemoter
             var picViewerViewModel = new PictureViewerViewModel(player);
             PicViewer.DataContext = picViewerViewModel;
             PicInfoPanel.DataContext = new PictureInfoViewModel(picViewerViewModel);
+
         }
 
         #endregion
@@ -40,6 +41,7 @@ namespace SiriusRemoter
             try
             {
                 var optionsWindow = new OptionsView(Window.GetWindow(this));
+                optionsWindow.DataContext = new OptionsViewModel();
                 optionsWindow.ShowDialog();
             }
             catch (Exception ex)

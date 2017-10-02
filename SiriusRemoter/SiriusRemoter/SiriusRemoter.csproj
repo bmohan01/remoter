@@ -132,6 +132,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\OptionsViewModel.cs" />
     <Compile Include="Web References\com.wikia.lyrics\Reference.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
