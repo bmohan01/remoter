@@ -101,8 +101,8 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <Label Grid.Row="0" Grid.Column="0" Content="Token:" Margin="0 0 10 0" VerticalAlignment="Center" Foreground="White"/>
-                    <Border Grid.Row="0" Grid.Column="1" BorderThickness="2" VerticalAlignment="Center">
-                        <TextBox Text="{Binding Path=TokenCode}"/>
+                    <Border Grid.Row="0" Grid.Column="1" BorderThickness="2" VerticalAlignment="Center" IsEnabled="True">
+                        <TextBox Text="{Binding Path=TokenCode}" IsEnabled="False"/>
                     </Border>
                 </Grid>
             </Expander>
