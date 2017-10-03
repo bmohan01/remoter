@@ -37,7 +37,7 @@ namespace SiriusRemoter.Helpers
                 artistName = Uri.EscapeUriString(artistName).ToLower();
                 songName = Uri.EscapeUriString(songName).ToLower();
 
-                var req = (HttpWebRequest)WebRequest.Create($"http://api.musixmatch.com/ws/1.1/track.search?apikey={MusixMatchApiKey}&q_artist=sting&q_track=desert%20rose");
+                var req = (HttpWebRequest)WebRequest.Create($"http://api.musixmatch.com/ws/1.1/track.search?apikey={MusixMatchApiKey}&q_artist={artistName}&q_track={songName}");
                 var webResponse = (HttpWebResponse)req.GetResponse();
                 var infoResponseStream = webResponse.GetResponseStream();
                 using (var sr = new StreamReader(infoResponseStream, Encoding.UTF8))
