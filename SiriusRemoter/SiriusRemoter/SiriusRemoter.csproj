@@ -180,10 +180,10 @@
     <Compile Include="Helpers\Converters\InverseBooleanConverter.cs" />
     <Compile Include="Helpers\Info.cs" />
     <Compile Include="Helpers\Players\LocalPlayer.cs" />
-    <Compile Include="Helpers\RemotePlayer.cs" />
+    <Compile Include="Helpers\Players\RemotePlayer.cs" />
     <Compile Include="Helpers\Renderers\IRenderer.cs" />
     <Compile Include="Helpers\Renderers\LocalRenderer.cs" />
-    <Compile Include="Helpers\Player.cs" />
+    <Compile Include="Helpers\Players\Player.cs" />
     <Compile Include="Helpers\Players\RelayCommand.cs" />
     <Compile Include="Helpers\SynchronizedObservableCollection.cs" />
     <Compile Include="Helpers\Utilities.cs" />

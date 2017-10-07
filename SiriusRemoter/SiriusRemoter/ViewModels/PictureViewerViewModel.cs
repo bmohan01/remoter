@@ -1,9 +1,9 @@
 ﻿using System;
-using SiriusRemoter.Helpers;
 using System.ComponentModel;
-using static SiriusRemoter.Helpers.Player;
+using static SiriusRemoter.Helpers.Players.Player;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using SiriusRemoter.Helpers.Players;
 
 namespace SiriusRemoter.ViewModels
 {

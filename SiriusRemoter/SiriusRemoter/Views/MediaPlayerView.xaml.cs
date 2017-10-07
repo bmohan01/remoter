@@ -1,11 +1,12 @@
 ﻿using SiriusRemoter.Helpers;
+using SiriusRemoter.Helpers.Players;
 using SiriusRemoter.ViewModels;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using static SiriusRemoter.Helpers.Player;
+using static SiriusRemoter.Helpers.Players.Player;
 
 namespace SiriusRemoter.Views
 {

@@ -1,7 +1,7 @@
 ﻿using SiriusRemoter.Models;
 using System.Collections.Generic;
 
-namespace SiriusRemoter.Helpers
+namespace SiriusRemoter.Helpers.Players
 {
     public abstract class BasePlayer
     {

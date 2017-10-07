@@ -1,5 +1,4 @@
 ﻿using CCSWE.Collections.ObjectModel;
-using SiriusRemoter.Helpers;
 using OpenSource.UPnP;
 using SiriusRemoter.Helpers.Upnp;
 using SiriusRemoter.Helpers.Upnp.OpenSource;
@@ -8,7 +7,7 @@ using System.ComponentModel;
 using SiriusRemoter.Resources;
 using SiriusRemoter.Helpers.Renderers;
 using System.Windows.Forms;
-using System.IO;
+using SiriusRemoter.Helpers.Players;
 
 namespace SiriusRemoter.ViewModels
 {

@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Xml;
 
-namespace SiriusRemoter.Helpers
+namespace SiriusRemoter.Helpers.Players
 {
     public class RemotePlayer : BasePlayer
     {

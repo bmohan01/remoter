@@ -1,7 +1,6 @@
-﻿using Newtonsoft.Json.Linq;
-using SiriusRemoter.Helpers;
+﻿using SiriusRemoter.Helpers;
+using SiriusRemoter.Helpers.Players;
 using System.ComponentModel;
-using System.IO;
 
 namespace SiriusRemoter.ViewModels
 {

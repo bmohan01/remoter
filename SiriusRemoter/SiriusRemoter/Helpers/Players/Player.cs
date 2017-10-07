@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Xml;
 
-namespace SiriusRemoter.Helpers
+namespace SiriusRemoter.Helpers.Players
 {
     public enum PlayerStatus
     {
