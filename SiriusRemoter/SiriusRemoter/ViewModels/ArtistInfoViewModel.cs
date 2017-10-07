@@ -95,19 +95,6 @@ namespace SiriusRemoter.ViewModels
             }
         }
 
-        public string TokenCode
-        {
-            get
-            {
-                return _tokenCode;
-            }
-            set
-            {
-                _tokenCode = value;
-                OnPropertyChanged(nameof(TokenCode));
-            }
-        }
-
         public string ActiveImage
         {
             get
@@ -230,12 +217,7 @@ namespace SiriusRemoter.ViewModels
 
         public void Initialize()
         {
-            if (File.Exists(Utilities.TokenFilePath))
-            {
-                var token = JObject.Parse(File.ReadAllText(Utilities.TokenFilePath).Trim());
-                TokenCode = token["DiscogsToken"].ToString();
-            }
-
+            _tokenCode = ApiKeys.Instance.DiscogsKey;
             GetArtistInfoAsync(_artistName);
         }
 
@@ -294,7 +276,7 @@ namespace SiriusRemoter.ViewModels
         {
             try
             {
-                string searchQuery = $"https://api.discogs.com/database/search?q={name}&token={TokenCode}";
+                string searchQuery = $"https://api.discogs.com/database/search?q={name}&token={_tokenCode}";
                 var req = (HttpWebRequest)WebRequest.Create(searchQuery);
                 req.UserAgent = UserAgent;
                 var response = (HttpWebResponse)req.GetResponse();
@@ -389,7 +371,7 @@ namespace SiriusRemoter.ViewModels
                 //Reset artistinfo. Set busy states
                 ResetArtistInfo();
                 //Fetch Artist Info Asynchronously
-                var request = (HttpWebRequest)WebRequest.Create($"https://api.discogs.com/database/search?q={name}&token={TokenCode}");
+                var request = (HttpWebRequest)WebRequest.Create($"https://api.discogs.com/database/search?q={name}&token={_tokenCode}");
                 request.UserAgent = UserAgent;
                 request.Method = "GET";
                 request.Proxy = null;
@@ -438,7 +420,7 @@ namespace SiriusRemoter.ViewModels
                 }
                 //Get Artist Bio, Member, Aliases variations
                 //make request
-                var req = (HttpWebRequest)WebRequest.Create($"https://api.discogs.com/artists/{artistId}?token={TokenCode}");
+                var req = (HttpWebRequest)WebRequest.Create($"https://api.discogs.com/artists/{artistId}?token={_tokenCode}");
                 req.UserAgent = UserAgent;
                 var webResponse = (HttpWebResponse)req.GetResponse();
                 var infoResponseStream = webResponse.GetResponseStream();

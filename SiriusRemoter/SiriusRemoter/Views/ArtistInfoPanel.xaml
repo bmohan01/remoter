@@ -90,22 +90,6 @@
                 </Grid>
             </Expander>
             <Separator Grid.Row="11" />
-            <Expander Grid.Row="12" Header="Discogs Token Auth" IsExpanded="false">
-                <Grid Margin="5 10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Content="Token:" Margin="0 0 10 0" VerticalAlignment="Center" Foreground="White"/>
-                    <Border Grid.Row="0" Grid.Column="1" BorderThickness="2" VerticalAlignment="Center" IsEnabled="True">
-                        <TextBox Text="{Binding Path=TokenCode}" IsEnabled="False"/>
-                    </Border>
-                </Grid>
-            </Expander>
         </Grid>
     </Grid>
 </UserControl>

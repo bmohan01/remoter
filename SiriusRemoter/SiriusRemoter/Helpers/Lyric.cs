@@ -8,13 +8,13 @@ namespace SiriusRemoter.Helpers
 {
     public static class Lyric
     {
-        private const string MusixMatchApiKey = "6e9b4c73c8ac60a97fadd3f8fccda46d";
+        private const string UrlPrefix = "http://api.musixmatch.com/ws/1.1";
 
         public static string GetLyrics(string artistName, string songName)
         {
             var info = new TrackInfo(artistName, songName);
 
-            var req = (HttpWebRequest)WebRequest.Create($"http://api.musixmatch.com/ws/1.1/track.lyrics.get?apikey={MusixMatchApiKey}&track_id={info.TrackId}&commontrack_id={info.CommonTrackId}");
+            var req = (HttpWebRequest)WebRequest.Create($"{UrlPrefix}/track.lyrics.get?apikey={ApiKeys.Instance.MusixMatchKey}&track_id={info.TrackId}&commontrack_id={info.CommonTrackId}");
             var webResponse = (HttpWebResponse)req.GetResponse();
             var infoResponseStream = webResponse.GetResponseStream();
             using (var sr = new StreamReader(infoResponseStream, Encoding.UTF8))
@@ -37,7 +37,7 @@ namespace SiriusRemoter.Helpers
                 artistName = Uri.EscapeUriString(artistName).ToLower();
                 songName = Uri.EscapeUriString(songName).ToLower();
 
-                var req = (HttpWebRequest)WebRequest.Create($"http://api.musixmatch.com/ws/1.1/track.search?apikey={MusixMatchApiKey}&q_artist={artistName}&q_track={songName}");
+                var req = (HttpWebRequest)WebRequest.Create($"{UrlPrefix}/track.search?apikey={ApiKeys.Instance.MusixMatchKey}&q_artist={artistName}&q_track={songName}");
                 var webResponse = (HttpWebResponse)req.GetResponse();
                 var infoResponseStream = webResponse.GetResponseStream();
                 using (var sr = new StreamReader(infoResponseStream, Encoding.UTF8))

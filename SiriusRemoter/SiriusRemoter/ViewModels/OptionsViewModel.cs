@@ -74,18 +74,13 @@ namespace SiriusRemoter.ViewModels
 
         private void Initialize()
         {
-            if (File.Exists(Utilities.TokenFilePath))
-            {
-                var token = JObject.Parse(File.ReadAllText(Utilities.TokenFilePath).Trim());
-                DiscogsKey = token["DiscogsToken"].ToString();
-                MusixMatchKey = token["MusixMatchToken"].ToString();
-            }
+            DiscogsKey = ApiKeys.Instance.DiscogsKey;
+            MusixMatchKey = ApiKeys.Instance.MusixMatchKey;
         }
 
         private void SaveTokens(object parameters)
         {
-            var keysText = new JObject(new JProperty("DiscogsToken", _discogsToken), new JProperty("MusixMatchToken", _musixToken));
-            File.WriteAllText(Utilities.TokenFilePath, keysText.ToString());
+            ApiKeys.Instance.SaveKeys(DiscogsKey, MusixMatchKey);
         }
     }
 }
