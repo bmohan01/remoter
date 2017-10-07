@@ -8,25 +8,7 @@ namespace SiriusRemoter.Helpers
 {
     public static class Lyric
     {
-        private const string UrlPrefix = "http://api.musixmatch.com/ws/1.1";
-
-        public static string GetLyrics(string artistName, string songName)
-        {
-            var info = new TrackInfo(artistName, songName);
-
-            string urlRequest = $"{UrlPrefix}/track.lyrics.get?apikey={ApiKeys.Instance.MusixMatchKey}&track_id={info.TrackId}&commontrack_id={info.CommonTrackId}";
-            var req = (HttpWebRequest)WebRequest.Create(urlRequest);
-            var webResponse = (HttpWebResponse)req.GetResponse();
-            var infoResponseStream = webResponse.GetResponseStream();
-            using (var sr = new StreamReader(infoResponseStream, Encoding.UTF8))
-            {
-                var token = JObject.Parse(sr.ReadToEnd());
-                //get first search result's id
-                var firstResult = token["message"]["body"]["lyrics"];
-                return firstResult["lyrics_body"].ToString();
-            }
-        }
-
+        public const string UrlPrefix = "http://api.musixmatch.com/ws/1.1";
 
         internal class TrackInfo
         {

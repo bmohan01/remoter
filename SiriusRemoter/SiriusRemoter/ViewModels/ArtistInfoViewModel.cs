@@ -55,7 +55,7 @@ namespace SiriusRemoter.ViewModels
         private string _activeImage;
         private string _artistName;
         private string _artistBio;
-        private string _song;
+        private string _songTitle;
         private string _lyrics;
         private string _members;
         private string _nameVariations;
@@ -80,6 +80,20 @@ namespace SiriusRemoter.ViewModels
             {
                 _lyrics = value;
                 OnPropertyChanged(nameof(Lyrics));
+            }
+        }
+
+        public String SongTitle
+        {
+            get
+            {
+                return _songTitle;
+            }
+            set
+            {
+                _songTitle = value;
+                GetLyrics(ArtistName, _songTitle);
+                OnPropertyChanged(nameof(SongTitle));
             }
         }
 
@@ -365,6 +379,38 @@ namespace SiriusRemoter.ViewModels
             ArtistNameVariationsBusy = true;
         }
 
+        private void GetLyrics(string artistName, string songName)
+        {
+            var info = new Lyric.TrackInfo(artistName, songName);
+            string urlRequest = $"{Lyric.UrlPrefix}/track.lyrics.get?apikey={ApiKeys.Instance.MusixMatchKey}&track_id={info.TrackId}&commontrack_id={info.CommonTrackId}";
+            var req = (HttpWebRequest)WebRequest.Create(urlRequest);
+            var state = new RequestState();
+            state.Request = req;
+            IAsyncResult result = req.BeginGetResponse(new AsyncCallback(LyricsAsyncCallback), state);
+        }
+
+        private void LyricsAsyncCallback(IAsyncResult result)
+        {
+            RequestState state = (RequestState)result.AsyncState;
+            HttpWebRequest request = state.Request;
+            // End the Asynchronous response and get the actual resonse object
+            var webResponse = request.GetResponse();
+            var infoResponseStream = webResponse.GetResponseStream();
+            using (var sr = new StreamReader(infoResponseStream, Encoding.UTF8))
+            {
+                string lyricsBody = "";
+                var token = JObject.Parse(sr.ReadToEnd());
+                var status_code = token["message"]["header"]["status_code"].ToString();
+                if (status_code == "200")
+                {
+                    //get first search result's id
+                    var firstResult = token["message"]["body"]["lyrics"];
+                    lyricsBody = firstResult["lyrics_body"].ToString();
+                }
+                Lyrics = lyricsBody;
+            }
+        }
+
         public void GetArtistInfoAsync(string name)
         {
             try
@@ -437,9 +483,6 @@ namespace SiriusRemoter.ViewModels
                 _currentImageIndex = 0;
                 ActiveImage = null;
                 ActiveImage = GetCurrentImageUrl();
-
-                //Get lyrics
-                Lyrics = Lyric.GetLyrics(ArtistName, _song);
             }
             catch (Exception ex)
             {
@@ -478,8 +521,14 @@ namespace SiriusRemoter.ViewModels
         {
             try
             {
+                string previousArtistName = ArtistName;
                 ArtistName = state.ArtistName;
-                _song = state.CurrentTrack.Title;
+
+                //Force Song Title change if the artist changed, or if the song title changed 
+                if (ArtistName != previousArtistName || SongTitle != state.CurrentTrack.Title)
+                {
+                    SongTitle = state.CurrentTrack.Title;
+                }
             }
             catch (Exception ex)
             {
