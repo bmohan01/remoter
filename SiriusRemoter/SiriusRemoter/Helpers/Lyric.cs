@@ -14,7 +14,8 @@ namespace SiriusRemoter.Helpers
         {
             var info = new TrackInfo(artistName, songName);
 
-            var req = (HttpWebRequest)WebRequest.Create($"{UrlPrefix}/track.lyrics.get?apikey={ApiKeys.Instance.MusixMatchKey}&track_id={info.TrackId}&commontrack_id={info.CommonTrackId}");
+            string urlRequest = $"{UrlPrefix}/track.lyrics.get?apikey={ApiKeys.Instance.MusixMatchKey}&track_id={info.TrackId}&commontrack_id={info.CommonTrackId}";
+            var req = (HttpWebRequest)WebRequest.Create(urlRequest);
             var webResponse = (HttpWebResponse)req.GetResponse();
             var infoResponseStream = webResponse.GetResponseStream();
             using (var sr = new StreamReader(infoResponseStream, Encoding.UTF8))
@@ -37,7 +38,8 @@ namespace SiriusRemoter.Helpers
                 artistName = Uri.EscapeUriString(artistName).ToLower();
                 songName = Uri.EscapeUriString(songName).ToLower();
 
-                var req = (HttpWebRequest)WebRequest.Create($"{UrlPrefix}/track.search?apikey={ApiKeys.Instance.MusixMatchKey}&q_artist={artistName}&q_track={songName}");
+                string urlRequest = $"{UrlPrefix}/track.search?apikey={ApiKeys.Instance.MusixMatchKey}&q_artist={artistName}&q_track={songName}";
+                var req = (HttpWebRequest)WebRequest.Create(urlRequest);
                 var webResponse = (HttpWebResponse)req.GetResponse();
                 var infoResponseStream = webResponse.GetResponseStream();
                 using (var sr = new StreamReader(infoResponseStream, Encoding.UTF8))
