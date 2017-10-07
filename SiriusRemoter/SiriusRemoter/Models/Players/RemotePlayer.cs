@@ -1,11 +1,10 @@
 ﻿using OpenSource.UPnP;
-using SiriusRemoter.Models;
 using SiriusRemoter.Resources;
 using System;
 using System.Collections.Generic;
 using System.Xml;
 
-namespace SiriusRemoter.Helpers.Players
+namespace SiriusRemoter.Models.Players
 {
     public class RemotePlayer : BasePlayer
     {

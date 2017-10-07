@@ -7,7 +7,8 @@ using System.ComponentModel;
 using SiriusRemoter.Resources;
 using SiriusRemoter.Helpers.Renderers;
 using System.Windows.Forms;
-using SiriusRemoter.Helpers.Players;
+using SiriusRemoter.Models.Players;
+using SiriusRemoter.Helpers;
 
 namespace SiriusRemoter.ViewModels
 {

@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json.Linq;
 using SiriusRemoter.Helpers;
-using SiriusRemoter.Helpers.Players;
+using SiriusRemoter.Models.Players;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Text;
-using static SiriusRemoter.Helpers.Players.Player;
+using static SiriusRemoter.Models.Players.Player;
 
 namespace SiriusRemoter.ViewModels
 {

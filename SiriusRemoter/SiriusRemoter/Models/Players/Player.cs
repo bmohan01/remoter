@@ -1,13 +1,13 @@
-﻿using SiriusRemoter.Helpers.Renderers;
+﻿using SiriusRemoter.Helpers;
+using SiriusRemoter.Helpers.Renderers;
 using SiriusRemoter.Helpers.Upnp.OpenSource;
-using SiriusRemoter.Models;
 using SiriusRemoter.Resources;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Xml;
 
-namespace SiriusRemoter.Helpers.Players
+namespace SiriusRemoter.Models.Players
 {
     public enum PlayerStatus
     {
@@ -458,7 +458,7 @@ namespace SiriusRemoter.Helpers.Players
         /// <summary>
         /// All the changes to properties to the Player class should happen here
         /// </summary>
-        private void LastChange_Handler(Info sender)
+        private void LastChange_Handler(Helpers.Info sender)
         {
             var currentTrack = CurrentlyPlaying == null ? null : CurrentlyPlaying.SongTrack;
             //Update state of Renderer av-transport

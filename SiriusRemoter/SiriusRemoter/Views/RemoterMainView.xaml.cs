@@ -1,5 +1,5 @@
 ﻿using MahApps.Metro.Controls;
-using SiriusRemoter.Helpers.Players;
+using SiriusRemoter.Models.Players;
 using SiriusRemoter.ViewModels;
 using SiriusRemoter.Views;
 using System;

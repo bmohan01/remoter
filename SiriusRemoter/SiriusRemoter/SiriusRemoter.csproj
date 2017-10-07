@@ -176,15 +176,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Helpers\Lyric.cs" />
-    <Compile Include="Helpers\Players\BasePlayer.cs" />
+    <Compile Include="Models\Players\BasePlayer.cs" />
     <Compile Include="Helpers\Converters\InverseBooleanConverter.cs" />
     <Compile Include="Helpers\Info.cs" />
-    <Compile Include="Helpers\Players\LocalPlayer.cs" />
-    <Compile Include="Helpers\Players\RemotePlayer.cs" />
+    <Compile Include="Models\Players\LocalPlayer.cs" />
+    <Compile Include="Models\Players\RemotePlayer.cs" />
     <Compile Include="Helpers\Renderers\IRenderer.cs" />
     <Compile Include="Helpers\Renderers\LocalRenderer.cs" />
-    <Compile Include="Helpers\Players\Player.cs" />
-    <Compile Include="Helpers\Players\RelayCommand.cs" />
+    <Compile Include="Models\Players\Player.cs" />
+    <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Helpers\SynchronizedObservableCollection.cs" />
     <Compile Include="Helpers\Utilities.cs" />
     <Compile Include="Models\NavigationContainer.cs" />

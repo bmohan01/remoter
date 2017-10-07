@@ -1,7 +1,7 @@
 ﻿using SiriusRemoter.Helpers;
-using SiriusRemoter.Helpers.Players;
+using SiriusRemoter.Models.Players;
 using System.ComponentModel;
-using static SiriusRemoter.Helpers.Players.Player;
+using static SiriusRemoter.Models.Players.Player;
 
 namespace SiriusRemoter.ViewModels
 {

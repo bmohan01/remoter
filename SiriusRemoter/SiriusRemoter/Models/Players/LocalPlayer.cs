@@ -1,9 +1,9 @@
-﻿using SiriusRemoter.Models;
+﻿using SiriusRemoter.Helpers;
 using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace SiriusRemoter.Helpers.Players
+namespace SiriusRemoter.Models.Players
 {
     public class LocalPlayer : BasePlayer
     {
