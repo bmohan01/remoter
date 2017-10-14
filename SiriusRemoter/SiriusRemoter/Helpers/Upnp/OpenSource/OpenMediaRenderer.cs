@@ -2,6 +2,7 @@
 using SiriusRemoter.Helpers.Renderers;
 using SiriusRemoter.Models;
 using System;
+using System.IO;
 using System.Xml.Linq;
 
 namespace SiriusRemoter.Helpers.Upnp.OpenSource
@@ -195,11 +196,14 @@ namespace SiriusRemoter.Helpers.Upnp.OpenSource
             {
                 return;
             }
+
+
             var arguments = new UPnPArgument[3];
             arguments[0] = new UPnPArgument("InstanceID", 0u);
             arguments[1] = new UPnPArgument("CurrentURI", uri);
             arguments[2] = new UPnPArgument("CurrentURIMetaData", metaData);
-            AVTransport.InvokeAsync("SetAVTransportURI", arguments);
+            //AVTransport.InvokeAsync("SetAVTransportURI", arguments);
+            var res = AVTransport.InvokeSync("SetAVTransportURI", arguments);
         }
 
         public bool Play(Track track)
@@ -271,7 +275,7 @@ namespace SiriusRemoter.Helpers.Upnp.OpenSource
         private XElement ParseChangeXML(string newState)
         {
             var xEvent = XElement.Parse(newState);
-            XNamespace ns = "urn:schemas-upnp-org:metadata-1-0/AVT/";
+            XNamespace ns = xEvent.Attribute("xmlns").Value;
             XNamespace r = "urn:schemas-rinconnetworks-com:metadata-1-0/";
             var instance = xEvent.Element(ns + "InstanceID");
             // We can receive other types of change events here.

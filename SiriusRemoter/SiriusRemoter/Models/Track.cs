@@ -89,11 +89,19 @@ namespace SiriusRemoter.Helpers
                 Channels = resNode.GetAttribute(CHANNELS_TAG);
                 Duration = TimeSpan.Parse(resNode.GetAttribute(DURATION_TAG));
                 Uri = resNode.InnerText;
+                MetaData = node.ParentNode.ParentNode.InnerXml; //FormDIDLMeta();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
+        }
+
+        private string FormDIDLMeta()
+        {
+            string result = @"<DIDL-Lite xmlns=""urn: schemas - upnp - org:metadata - 1 - 0 / DIDL - Lite / "">";
+
+            return result;
         }
 
         private string TryGetValue(XmlNode node, string tag)
