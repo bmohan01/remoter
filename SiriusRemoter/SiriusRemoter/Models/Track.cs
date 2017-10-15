@@ -89,7 +89,7 @@ namespace SiriusRemoter.Helpers
                 Channels = resNode.GetAttribute(CHANNELS_TAG);
                 Duration = TimeSpan.Parse(resNode.GetAttribute(DURATION_TAG));
                 Uri = resNode.InnerText;
-                MetaData = node.ParentNode.ParentNode.InnerXml; //FormDIDLMeta();
+                MetaData = FormDIDLMeta(node);
             }
             catch (Exception ex)
             {
@@ -97,11 +97,18 @@ namespace SiriusRemoter.Helpers
             }
         }
 
-        private string FormDIDLMeta()
+        private string FormDIDLMeta(XmlNode rootNode)
         {
-            string result = @"<DIDL-Lite xmlns=""urn: schemas - upnp - org:metadata - 1 - 0 / DIDL - Lite / "">";
-
-            return result;
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(@"<DIDL-Lite></DIDL-Lite>");
+            foreach (XmlAttribute attribute in rootNode.ParentNode.Attributes)
+            {
+                doc.DocumentElement.SetAttribute(attribute.Name, attribute.Value);
+            }
+            var va = doc.FirstChild;
+            XmlNode importNode = va.OwnerDocument.ImportNode(rootNode, true);
+            va.AppendChild(importNode);
+            return doc.OuterXml;
         }
 
         private string TryGetValue(XmlNode node, string tag)
