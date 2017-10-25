@@ -318,7 +318,7 @@ namespace SiriusRemoter.Models.Players
             {
                 var doc = new XmlDocument();
                 doc.LoadXml(trackMetadata);
-                var newNode = doc.DocumentElement;
+                var newNode = doc.DocumentElement["item"];
                 track = new Track(newNode);
             }
             if (track == null)
