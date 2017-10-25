@@ -65,10 +65,39 @@ namespace SiriusRemoter.ViewModels
         private double _currentVolume;
         private ImageSource _volumeImage;
         private string _currentSongDurationText;
+        private InfoPanels _activeInfoPanel;
+        private string _songSourceInfo;
+
+        #region Enums
+
+        public enum InfoPanels
+        {
+            Bitrate,
+            SamplingFrequency
+        }
+
+        #endregion
 
         #endregion
 
         #region Properties
+
+        public string SongSourceInfo
+        {
+            get
+            {
+                return _songSourceInfo;
+            }
+            set
+            {
+                if (_songSourceInfo == value)
+                {
+                    return;
+                }
+                _songSourceInfo = value;
+                OnPropertyChanged(nameof(SongSourceInfo));
+            }
+        }
 
         public string BitRate
         {
@@ -168,6 +197,7 @@ namespace SiriusRemoter.ViewModels
                     return;
                 }
                 _title = value;
+                ToggleInfoLabels(true);
                 OnPropertyChanged(nameof(Title));
             }
         }
@@ -254,6 +284,29 @@ namespace SiriusRemoter.ViewModels
         #endregion
 
         #region Methods
+
+        public void ToggleInfoLabels(bool resetting = false)
+        {
+            if (resetting)
+            {
+                SongSourceInfo = SamplingFrequency;
+                _activeInfoPanel = InfoPanels.SamplingFrequency;
+            }
+            else
+            {
+                switch (_activeInfoPanel)
+                {
+                    case InfoPanels.Bitrate:
+                        SongSourceInfo = SamplingFrequency;
+                        _activeInfoPanel = InfoPanels.SamplingFrequency;
+                        break;
+                    case InfoPanels.SamplingFrequency:
+                        SongSourceInfo = BitRate;
+                        _activeInfoPanel = InfoPanels.Bitrate;
+                        break;
+                }
+            }
+        }
 
         private void SetupOnVolumeChange()
         {
@@ -353,9 +406,11 @@ namespace SiriusRemoter.ViewModels
                 AlbumArtUri = state.AlbumartUri;
                 ArtistName = state.ArtistName;
                 Album = state.Album;
-                Title = state.Title;
                 BitRate = state.Bitrate + " kbps";
                 SamplingFrequency = state.SamplingFrequency + " Hz";
+                
+                //Title is set after Bitrate and SampleFrequency because title's setting triggers the change to display SAmpling/BitRate
+                Title = state.Title;
                 CurrentSongDuration = state.CurrentSongDuration;
                 CurrentVolume = state.CurrentVolume;
             }

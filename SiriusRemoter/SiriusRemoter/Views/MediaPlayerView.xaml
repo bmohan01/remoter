@@ -75,7 +75,7 @@
                     <Button Grid.Column="0" Click="Left_Button_Click">
                         <Image Source="../Resources/Icons/left.white.png"/>
                     </Button>
-                    <Label Grid.Column="1" x:Name="InfoLabel" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Label Grid.Column="1" x:Name="InfoLabel" Content="{Binding SongSourceInfo}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     <Button Grid.Column="2" Click="Right_Button_Click">
                         <Image Source="../Resources/Icons/right.white.png" />
                     </Button>

@@ -9,12 +9,6 @@ using static SiriusRemoter.Models.Players.Player;
 
 namespace SiriusRemoter.Views
 {
-    public enum InfoPanels
-    {
-        Bitrate,
-        SamplingFrequency
-    }
-
     /// <summary>
     /// Interaction logic for MediaPlayerView.xaml
     /// </summary>
@@ -25,7 +19,6 @@ namespace SiriusRemoter.Views
 
         private DispatcherTimer _songPositionTimer;
         private bool _isSliderDragging;
-        private InfoPanels _activeInfoPanel;
 
         #endregion
 
@@ -68,21 +61,6 @@ namespace SiriusRemoter.Views
             _songPositionTimer.Tick += songPositionTimer_Tick;
             _songPositionTimer.Interval = new TimeSpan(0, 0, 0, 0, 100);
             _songPositionTimer.Start();
-        }
-
-        private void ToggleInfoLabels(MahApps.Metro.Controls.TransitionType transitionStyle)
-        {
-            switch (_activeInfoPanel)
-            {
-                case InfoPanels.Bitrate:
-                    InfoLabel.Content = ViewModel.SamplingFrequency;
-                    _activeInfoPanel = InfoPanels.SamplingFrequency;
-                    break;
-                case InfoPanels.SamplingFrequency:
-                    InfoLabel.Content = ViewModel.BitRate;
-                    _activeInfoPanel = InfoPanels.Bitrate;
-                    break;
-            }
         }
 
         /// <summary>
@@ -149,7 +127,7 @@ namespace SiriusRemoter.Views
         {
             try
             {
-                ToggleInfoLabels(MahApps.Metro.Controls.TransitionType.Right);
+                ViewModel.ToggleInfoLabels();
             }
             catch (Exception ex)
             {
@@ -161,7 +139,7 @@ namespace SiriusRemoter.Views
         {
             try
             {
-                ToggleInfoLabels(MahApps.Metro.Controls.TransitionType.Left);
+                ViewModel.ToggleInfoLabels();
             }
             catch (Exception ex)
             {
