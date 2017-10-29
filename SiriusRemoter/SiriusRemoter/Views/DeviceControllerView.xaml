@@ -60,27 +60,27 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
-                        <DockPanel Grid.Row="0" Margin="0 0 0 5">
-                            <Label Content="Path:" DockPanel.Dock="Left"/>
-                            <TextBox Text="{Binding DirectoryPath}" IsReadOnly="True" VerticalAlignment="Center"/>
-                        </DockPanel>
-                        <Button Content="Browse" Grid.Row="1" Command="{Binding BrowseCommand}" HorizontalAlignment="Center"/>
+                        <Button Content="Browse" Grid.Row="0" Command="{Binding BrowseCommand}" HorizontalAlignment="Center"/>
                     </Grid>
                 </Expander>
             </Grid>
-                
         </Expander>
         <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
         <Expander Grid.Row="2" Header="Navigator" IsExpanded="{Binding IsNavigable}">
             <Grid Margin="5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Button Content="Back" Grid.Row="0" Command="{Binding PlayerController.NavigateUpCommand}" Margin="0 5"/>
-                <ListView Grid.Row="1" ItemsSource="{Binding PlayerController.CurrentNavigationItems}"
+                <DockPanel Grid.Row="0" Margin="0 0 0 5">
+                    <Label Content="Path:" DockPanel.Dock="Left"/>
+                    <Label Content="{Binding PlayerController.DirectoryPath}" Padding="10" BorderBrush="White" BorderThickness="0"
+                                   VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
+                </DockPanel>
+                <Button Content="Back" Grid.Row="1" Command="{Binding PlayerController.NavigateUpCommand}" Margin="0 5"/>
+                <ListView Grid.Row="2" ItemsSource="{Binding PlayerController.CurrentNavigationItems}"
                       SelectedIndex="{Binding PlayerController.CurrentNavigationIndex, Mode=OneWayToSource}"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <ListView.ItemContainerStyle>

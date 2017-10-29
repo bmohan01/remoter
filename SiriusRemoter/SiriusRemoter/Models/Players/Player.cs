@@ -41,6 +41,7 @@ namespace SiriusRemoter.Models.Players
         private int _currentNavigationIndex;
         private RemotePlayer _remotePlayer;
         private LocalPlayer _localPlayer;
+        private string _directoryPath;
 
         //State related
         private PlayerState _state = new PlayerState();
@@ -73,6 +74,19 @@ namespace SiriusRemoter.Models.Players
         }
 
         public OpenMediaServer Server { get; set; }
+
+        public string DirectoryPath
+        {
+            get
+            {
+                return _directoryPath;
+            }
+            set
+            {
+                _directoryPath = value;
+                OnPropertyChanged(nameof(DirectoryPath));
+            }
+        }
 
         public Song CurrentlyPlaying
         {
@@ -292,6 +306,7 @@ namespace SiriusRemoter.Models.Players
 
         public void SetQueue(string query)
         {
+            DirectoryPath = query;
             CurrentNavigationItems = ActivePlayer.GetNavigationItems(query);
         }
 

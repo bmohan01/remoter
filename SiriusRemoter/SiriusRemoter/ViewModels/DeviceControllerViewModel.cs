@@ -52,24 +52,10 @@ namespace SiriusRemoter.ViewModels
         private int _rendererSelectedIndex = 0;
         private int _mediaServerSelectedIndex = 0;
         private bool _isNavigable;
-        private string _directoryPath;
 
         #endregion
 
         #region Properties
-
-        public string DirectoryPath
-        {
-            get
-            {
-                return _directoryPath;
-            }
-            set
-            {
-                _directoryPath = value;
-                OnPropertyChanged(nameof(DirectoryPath));
-            }
-        }
 
         public Player PlayerController
         {
@@ -321,10 +307,10 @@ namespace SiriusRemoter.ViewModels
 
                 if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
                 {
-                    DirectoryPath = fbd.SelectedPath;
+                    PlayerController.DirectoryPath = fbd.SelectedPath;
                 }
             }
-            PlayerController.SetupLocalPlayerNavItems(DirectoryPath);
+            PlayerController.SetupLocalPlayerNavItems(PlayerController.DirectoryPath);
         }
 
         #endregion

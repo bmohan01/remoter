@@ -11,7 +11,7 @@ namespace SiriusRemoter.Models.Players
         {
         }
 
-        private const string Root = "DriveLevelRoot";
+        private const string Root = "Root";
         private string _currentPath;
 
         public override List<NavigationItem> GetNavigationItems(string path)
