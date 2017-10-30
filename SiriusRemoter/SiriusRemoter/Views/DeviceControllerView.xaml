@@ -3,10 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-             xmlns:MahApps="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-             xmlns:local="clr-namespace:SiriusRemoter"
-             xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              mc:Ignorable="d">
     <UserControl.Resources>
         <Style TargetType="Label" BasedOn="{StaticResource ControlBaseStyle}">
@@ -30,7 +26,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Expander Header="Remote" Grid.Row="0" IsExpanded="True">
+                <GroupBox Header="Remote" Grid.Row="0">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
@@ -54,31 +50,29 @@
                         <Button Grid.Row="4" Grid.Column="0" Margin="0 5" Grid.ColumnSpan="2" Content="Search"
                         Command="{Binding SearchForDevicesCommand}" HorizontalAlignment="Center" />
                     </Grid>
-                </Expander>
+                </GroupBox>
                 <Separator Grid.Row="1" Grid.ColumnSpan="2"/>
-                <Expander Header="Local" Grid.Row="2" IsExpanded="False">
+                <GroupBox Header="Local" Grid.Row="2">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                         </Grid.RowDefinitions>
                         <Button Content="Browse" Grid.Row="0" Command="{Binding BrowseCommand}" HorizontalAlignment="Center"/>
                     </Grid>
-                </Expander>
+                </GroupBox>
             </Grid>
         </Expander>
         <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" />
-        <Expander Grid.Row="2" Header="Navigator" IsExpanded="{Binding IsNavigable}">
+        <!-- <Expander Grid.Row="2" Header="Navigator" IsExpanded="{Binding IsNavigable}"> -->
+        <Expander Grid.Row="2" Header="Navigator" IsExpanded="True">
             <Grid Margin="5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <DockPanel Grid.Row="0" Margin="0 0 0 5">
-                    <Label Content="Path:" DockPanel.Dock="Left"/>
-                    <Label Content="{Binding PlayerController.DirectoryPath}" Padding="10" BorderBrush="White" BorderThickness="0"
-                                   VerticalAlignment="Center" HorizontalAlignment="Stretch"/>
-                </DockPanel>
+                <Label Grid.Row="0" Content="{Binding PlayerController.DirectoryPath}" VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                       HorizontalContentAlignment="Center" />
                 <Button Content="Back" Grid.Row="1" Command="{Binding PlayerController.NavigateUpCommand}" Margin="0 5"/>
                 <ListView Grid.Row="2" ItemsSource="{Binding PlayerController.CurrentNavigationItems}"
                       SelectedIndex="{Binding PlayerController.CurrentNavigationIndex, Mode=OneWayToSource}"
@@ -96,16 +90,16 @@
                                         <Style TargetType="{x:Type Image}">
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding Type}" Value="AudioItem">
-                                                    <Setter Property="Source" Value="../Resources/Icons/musicNote.png"/>
+                                                    <Setter Property="Source" Value="../Resources/Icons/musicNote.white.png"/>
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding Type}" Value="Folder">
-                                                    <Setter Property="Source" Value="../Resources/Icons/folder.png"/>
+                                                    <Setter Property="Source" Value="../Resources/Icons/folder.white.png"/>
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding Type}" Value="Picture">
-                                                    <Setter Property="Source" Value="../Resources/Icons/photo.png"/>
+                                                    <Setter Property="Source" Value="../Resources/Icons/photo.white.png"/>
                                                 </DataTrigger>
                                                 <DataTrigger Binding="{Binding Type}" Value="Video">
-                                                    <Setter Property="Source" Value="../Resources/Icons/video.png"/>
+                                                    <Setter Property="Source" Value="../Resources/Icons/video.white.png"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
                                         </Style>

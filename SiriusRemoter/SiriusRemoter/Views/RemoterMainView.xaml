@@ -17,7 +17,7 @@
     <MahApps:MetroWindow.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
     </MahApps:MetroWindow.Resources>
-    <Grid Background="#545454">
+    <Grid Background="#27282A">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
