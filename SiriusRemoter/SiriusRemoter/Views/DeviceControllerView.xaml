@@ -69,12 +69,17 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Content="{Binding PlayerController.DirectoryPath}" VerticalAlignment="Center" HorizontalAlignment="Stretch"
                        HorizontalContentAlignment="Center" />
                 <Button Content="Back" Grid.Row="1" Command="{Binding PlayerController.NavigateUpCommand}" Margin="0 5"/>
-                <ListView Grid.Row="2" ItemsSource="{Binding PlayerController.CurrentNavigationItems}"
+                <DockPanel Grid.Row="2" Margin="0 5">
+                    <Button Content="Filter" DockPanel.Dock="Right" Padding="20 0"/>
+                    <TextBox DockPanel.Dock="Left"/>
+                </DockPanel>
+                <ListView Grid.Row="3" ItemsSource="{Binding PlayerController.CurrentNavigationItems}"
                       SelectedIndex="{Binding PlayerController.CurrentNavigationIndex, Mode=OneWayToSource}"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
                     <ListView.ItemContainerStyle>
