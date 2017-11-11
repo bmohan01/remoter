@@ -69,52 +69,58 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Label Grid.Row="0" Content="{Binding PlayerController.DirectoryPath}" VerticalAlignment="Center" HorizontalAlignment="Stretch"
-                       HorizontalContentAlignment="Center" />
-                <Button Content="Back" Grid.Row="1" Command="{Binding PlayerController.NavigateUpCommand}" Margin="0 5"/>
-                <DockPanel Grid.Row="2" Margin="0 5">
-                    <Button Content="Filter" DockPanel.Dock="Right" Padding="20 0"/>
-                    <TextBox DockPanel.Dock="Left"/>
-                </DockPanel>
-                <ListView Grid.Row="3" ItemsSource="{Binding PlayerController.CurrentNavigationItems}"
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Content="Path:"/>
+                <Label Grid.Row="0" Grid.Column="1" Content="{Binding PlayerController.DirectoryPath}" VerticalAlignment="Center" HorizontalAlignment="Stretch"
+                       HorizontalContentAlignment="Left"/>
+                <Button Grid.Row="0" Grid.Column="2" Content="Back" Command="{Binding PlayerController.NavigateUpCommand}" Margin="0 5"/>
+                <Label Grid.Row="1" Grid.Column="0" Content="Filter:" Padding="20 0" />
+                <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Text="{Binding FilterText, UpdateSourceTrigger=PropertyChanged}" TextChanged="FilterText_TextChanged" />
+                <GroupBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Header="Contents:" Margin="0 10">
+                    <ListView x:Name="navItems" Margin="5" ItemsSource="{Binding CurrentNavItems}" 
                       SelectedIndex="{Binding PlayerController.CurrentNavigationIndex, Mode=OneWayToSource}"
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
-                    <ListView.ItemContainerStyle>
-                        <Style TargetType="ListViewItem">
-                            <EventSetter Event="MouseDoubleClick" Handler="NavigationItemClickHandler" />
-                        </Style>
-                    </ListView.ItemContainerStyle>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <DockPanel>
-                                <Image Width="16" Height="16" DockPanel.Dock="Left" Margin="0 0 2 0">
-                                    <Image.Style>
-                                        <Style TargetType="{x:Type Image}">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding Type}" Value="AudioItem">
-                                                    <Setter Property="Source" Value="../Resources/Icons/musicNote.white.png"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding Type}" Value="Folder">
-                                                    <Setter Property="Source" Value="../Resources/Icons/folder.white.png"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding Type}" Value="Picture">
-                                                    <Setter Property="Source" Value="../Resources/Icons/photo.white.png"/>
-                                                </DataTrigger>
-                                                <DataTrigger Binding="{Binding Type}" Value="Video">
-                                                    <Setter Property="Source" Value="../Resources/Icons/video.white.png"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Image.Style>
-                                </Image>
-                                <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
-                            </DockPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListView>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <EventSetter Event="MouseDoubleClick" Handler="NavigationItemClickHandler" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel>
+                                    <Image Width="16" Height="16" DockPanel.Dock="Left" Margin="0 0 2 0">
+                                        <Image.Style>
+                                            <Style TargetType="{x:Type Image}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Type}" Value="AudioItem">
+                                                        <Setter Property="Source" Value="../Resources/Icons/musicNote.white.png"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Type}" Value="Folder">
+                                                        <Setter Property="Source" Value="../Resources/Icons/folder.white.png"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Type}" Value="Picture">
+                                                        <Setter Property="Source" Value="../Resources/Icons/photo.white.png"/>
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Type}" Value="Video">
+                                                        <Setter Property="Source" Value="../Resources/Icons/video.white.png"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                    <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                                </DockPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListView>
+                </GroupBox>
+                
             </Grid>
         </Expander>
     </Grid>

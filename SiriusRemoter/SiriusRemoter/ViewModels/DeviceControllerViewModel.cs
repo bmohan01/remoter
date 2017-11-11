@@ -1,17 +1,21 @@
-﻿using CCSWE.Collections.ObjectModel;
-using OpenSource.UPnP;
-using SiriusRemoter.Helpers.Upnp;
-using SiriusRemoter.Helpers.Upnp.OpenSource;
-using System.Collections.Generic;
-using System.ComponentModel;
-using SiriusRemoter.Resources;
-using SiriusRemoter.Helpers.Renderers;
-using System.Windows.Forms;
-using SiriusRemoter.Models.Players;
-using SiriusRemoter.Helpers;
-
-namespace SiriusRemoter.ViewModels
+﻿namespace SiriusRemoter.ViewModels
 {
+    using CCSWE.Collections.ObjectModel;
+    using OpenSource.UPnP;
+    using SiriusRemoter.Helpers.Upnp;
+    using SiriusRemoter.Helpers.Upnp.OpenSource;
+    using System.Collections.Generic;
+    using System.ComponentModel;
+    using SiriusRemoter.Resources;
+    using SiriusRemoter.Helpers.Renderers;
+    using System.Windows.Forms;
+    using SiriusRemoter.Models.Players;
+    using SiriusRemoter.Helpers;
+    using SiriusRemoter.Helpers.SearchFramework;
+    using System.Windows.Data;
+    using System;
+    using SiriusRemoter.Models;
+
     public class DeviceControllerViewModel : INotifyPropertyChanged
     {
         #region INotify Things
@@ -30,10 +34,23 @@ namespace SiriusRemoter.ViewModels
         public DeviceControllerViewModel(Player player)
         {
             _player = player;
+            _player.PropertyChanged += Player_PropertyChanged;
             SearchForDevicesCommand = new RelayCommand(SearchForDevices);
             BrowseCommand = new RelayCommand(BrowseToFolder);
             _discovery = new OpenUpnpDiscovery();
             _discovery.OnDeviceAddedEvent += DeviceAdded_EventHandler;
+        }
+
+        private void Player_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "CurrentNavigationItems")
+            {
+                var player = sender as Player;
+                if (player != null)
+                {
+                    CurrentNavItems = player.CurrentNavigationItems;
+                }
+            }
         }
 
         #endregion
@@ -48,14 +65,31 @@ namespace SiriusRemoter.ViewModels
         private SynchronizedObservableCollection<string> _upnpDeviceNames = new SynchronizedObservableCollection<string>();
         private SynchronizedObservableCollection<string> _mediaServerNames = new SynchronizedObservableCollection<string>();
         private SynchronizedObservableCollection<string> _rendererDeviceNames = new SynchronizedObservableCollection<string>();
+        private List<NavigationItem> _currentNavItems = new List<NavigationItem>();
+        private CollectionView view;
+        private bool _hasViewChanged;
+        private string _filterText;
+        private bool _isNavigable;
         private int _upnpDeviceSelectedIndex = 0;
         private int _rendererSelectedIndex = 0;
         private int _mediaServerSelectedIndex = 0;
-        private bool _isNavigable;
 
         #endregion
 
         #region Properties
+
+        public string FilterText
+        {
+            get
+            {
+                return _filterText;
+            }
+            set
+            {
+                _filterText = value;
+                OnPropertyChanged(nameof(FilterText));
+            }
+        }
 
         public Player PlayerController
         {
@@ -67,6 +101,20 @@ namespace SiriusRemoter.ViewModels
             {
                 _player = value;
                 OnPropertyChanged(nameof(PlayerController));
+            }
+        }
+
+        public List<NavigationItem> CurrentNavItems
+        {
+            get
+            {
+                return _currentNavItems;
+            }
+            set
+            {
+                _currentNavItems = value;
+                _hasViewChanged = true;
+                OnPropertyChanged(nameof(CurrentNavItems));
             }
         }
 
@@ -311,6 +359,53 @@ namespace SiriusRemoter.ViewModels
                 }
             }
             PlayerController.SetupLocalPlayerNavItems(PlayerController.DirectoryPath);
+        }
+
+        public void ExecuteFilter()
+        {
+            if (CurrentNavItems != null)
+            {
+                if (view == null || _hasViewChanged)
+                {
+                    _hasViewChanged = false;
+                    SetupFiltering();
+                }
+
+                RefreshView();
+            }
+        }
+
+        public void RefreshView()
+        {
+            CollectionViewSource.GetDefaultView(CurrentNavItems).Refresh();
+        }
+
+        private void SetupFiltering()
+        {
+            view = (CollectionView)CollectionViewSource.GetDefaultView(CurrentNavItems);
+            view.Filter = SearchFilter;
+        }
+
+        private bool SearchFilter(object item)
+        {
+            if (String.IsNullOrEmpty(FilterText))
+            {
+                return true;
+            }
+            // Matches the beggining of each word in the name (separated by spaces)
+            else
+            {
+                string[] fragments = (item as NavigationItem).Name.Split(null);
+                foreach (var word in fragments)
+                {
+                    if (word.StartsWith(FilterText, StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
+                }
+
+                return false;                
+            }
         }
 
         #endregion

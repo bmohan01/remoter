@@ -1,9 +1,11 @@
 ﻿using SiriusRemoter.Helpers;
 using SiriusRemoter.Helpers.Renderers;
+using SiriusRemoter.Helpers.SearchFramework;
 using SiriusRemoter.Helpers.Upnp.OpenSource;
 using SiriusRemoter.Resources;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Xml;
 
@@ -41,7 +43,7 @@ namespace SiriusRemoter.Models.Players
         private int _currentNavigationIndex;
         private RemotePlayer _remotePlayer;
         private LocalPlayer _localPlayer;
-        private string _directoryPath;
+        private string _directoryPath = "~";
 
         //State related
         private PlayerState _state = new PlayerState();
@@ -238,6 +240,7 @@ namespace SiriusRemoter.Models.Players
             set
             {
                 _currentNavigationItems = value;
+                IndexSongs(_currentNavigationItems);
                 OnPropertyChanged(nameof(CurrentNavigationItems));
             }
         }
@@ -341,6 +344,26 @@ namespace SiriusRemoter.Models.Players
                 return;
             }
             _state.CurrentTrack = track;
+        }
+
+        private void IndexSongs(List<NavigationItem> navigationItems)
+        {
+            if (navigationItems == null)
+            {
+                return;
+            }
+
+            var searchEntity = new Search("http://localhost:9200");
+            if (searchEntity.Client == null)
+            {
+                return;
+            }
+
+            searchEntity.Clear();
+            foreach (var item in navigationItems)
+            {
+                searchEntity.Index(item);
+            }
         }
 
         #region Media Controls Methods
