@@ -88,5 +88,24 @@ namespace SiriusRemoter.Helpers
                 return Path.GetDirectoryName(Uri.UnescapeDataString(uri.Path));
             }
         }
+
+        public static bool IsSymbolic(string path)
+        {
+            FileInfo fileInfo = new FileInfo(path);
+            if (fileInfo.Exists)
+            {
+                return fileInfo.Attributes.HasFlag(FileAttributes.ReparsePoint);
+            }
+            else
+            {
+                DirectoryInfo dirInfo = new DirectoryInfo(path);
+                if (dirInfo.Exists)
+                {
+                    return dirInfo.Exists && dirInfo.Attributes.HasFlag(FileAttributes.ReparsePoint);
+                }
+            }
+
+            return false;
+        }
     }
 }

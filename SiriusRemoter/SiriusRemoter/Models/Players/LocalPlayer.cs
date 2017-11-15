@@ -36,13 +36,19 @@ namespace SiriusRemoter.Models.Players
             {
                 foreach (var item in Directory.GetDirectories(_currentPath))
                 {
-                    result.Add(new NavigationContainer(item, new DirectoryInfo(item).Name));
+                    if (!Utilities.IsSymbolic(item))
+                    {
+                        result.Add(new NavigationContainer(item, new DirectoryInfo(item).Name));
+                    }
                 }
 
                 foreach (var item in Directory.GetFiles(_currentPath))
                 {
-                    if (Utilities.IsMediaFile(item)) result.Add(new Song(item, Path.GetFileNameWithoutExtension(item)));
-                    if (Utilities.IsPhotoFile(item)) result.Add(new Photo(item, Path.GetFileNameWithoutExtension(item)));
+                    if (!Utilities.IsSymbolic(item))
+                    {
+                        if (Utilities.IsMediaFile(item)) result.Add(new Song(item, Path.GetFileNameWithoutExtension(item)));
+                        if (Utilities.IsPhotoFile(item)) result.Add(new Photo(item, Path.GetFileNameWithoutExtension(item)));
+                    }
                 }
             }
 
