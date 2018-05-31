@@ -88,7 +88,7 @@
                          PreviewMouseDown="songSlider_PreviewMouseDown" VerticalAlignment="Center"
                          Minimum="0" Maximum="100"/>
                 <Button Grid.Row="1" Grid.Column="4" x:Name="volumeControl" HorizontalAlignment="Right" 
-                        VerticalAlignment="Top" Width="60" Height="35" Click="volumeControl_Click">
+                        VerticalAlignment="Top" Width="60" Height="35" Click="VolumeControl_Click">
                     <Image Source="{Binding VolumeImage, FallbackValue={StaticResource DefaultVolumeImage}, TargetNullValue={StaticResource DefaultVolumeImage}}"/>                    
                 </Button>
                 <Popup x:Name="DDNTPopup" StaysOpen="False" Placement="Top" HorizontalOffset="22" VerticalOffset="-5" PopupAnimation="Scroll" 

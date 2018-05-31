@@ -59,7 +59,7 @@ namespace SiriusRemoter.Views
         {
             _songPositionTimer = new DispatcherTimer();
             _songPositionTimer.Tick += songPositionTimer_Tick;
-            _songPositionTimer.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            _songPositionTimer.Interval = new TimeSpan(0, 0, 0, 0, 1);
             _songPositionTimer.Start();
         }
 
@@ -188,6 +188,7 @@ namespace SiriusRemoter.Views
                 {
                     return;
                 }
+
                 //Update the song position
                 var currentSongPosition = ViewModel.PlayerController.Renderer.GetCurrentSongPosition();
                 CurrentSongPositionLabel.Content = currentSongPosition.ToString(@"hh\:mm\:ss");
@@ -197,6 +198,7 @@ namespace SiriusRemoter.Views
                 {
                     songCompletionPercentage = (currentSongPosition.TotalSeconds / ViewModel.CurrentSongDuration.TotalSeconds) * 100;
                 }
+
                 songSlider.Value = songCompletionPercentage;
             }
             catch (Exception ex)
@@ -205,7 +207,7 @@ namespace SiriusRemoter.Views
             }
         }
 
-        private void volumeControl_Click(object sender, RoutedEventArgs e)
+        private void VolumeControl_Click(object sender, RoutedEventArgs e)
         {
             try
             {
